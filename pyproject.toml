@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "sorting-the-folder-trash-using-async"
+version = "0.1.0"
+description = ""
+authors = ["PavelStelmakhV <stelmahpv13@gmail.com>"]
+readme = "README.md"
+packages = [{include = "sorting_the_folder_trash_using_async"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiopath = "^0.6.11"
+aioshutil = "^1.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
