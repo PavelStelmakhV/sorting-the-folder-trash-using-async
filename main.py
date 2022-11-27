@@ -26,7 +26,7 @@ async def get_arguments() -> tuple[AsyncPath, AsyncPath]:
 
     parser = argparse.ArgumentParser(description='Sorting folder')
     parser.add_argument('--source', '-s', help='Source folder', required=True)
-    parser.add_argument('--output', '-o', help='Output folder (default="sorted_trash")', default='sorted_trash')
+    parser.add_argument('--output', '-o', help='Output folder (default = Source folder)')
     args = vars(parser.parse_args())
 
     base_folder_ = AsyncPath(args.get('source'))
@@ -34,7 +34,7 @@ async def get_arguments() -> tuple[AsyncPath, AsyncPath]:
         print(f"Don't exist folder {base_folder_}")
         quit()
 
-    output_folder_ = AsyncPath(args.get('output'))
+    output_folder_ = AsyncPath(args.get('output')) if args.get('output') else base_folder_
     if not (await make_folder(output_folder_)):
         quit()
 
@@ -61,7 +61,7 @@ async def make_folder(folder: AsyncPath) -> bool:
 async def move_file(file: AsyncPath) -> None:
     # print(f'moving_files: {file}')
     global output_folder
-    ext = file.suffix
+    ext = file.suffix[1::]
     new_path = output_folder / ext
     if await make_folder(new_path):
         await move(file, new_path / file.name)
@@ -72,7 +72,7 @@ async def main():
     base_folder, output_folder = await get_arguments()
     await read_folder(base_folder)
     await del_empty_folders(base_folder)
-    print(f'Folder "{base_folder}" cleaned and files sorted in ".\\{output_folder}"')
+    print(f'Folder "{base_folder}" cleaned and files sorted in "{output_folder}"')
 
 
 if __name__ == '__main__':
